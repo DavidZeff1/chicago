@@ -3,9 +3,6 @@
 venv/
 __pycache__/
 *.py[cod]
-data/cache/
-data/raw/*.json
-data/raw/*.csv
 .idea/
 .vscode/
 .DS_Store
