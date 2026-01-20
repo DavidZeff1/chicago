@@ -3,7 +3,7 @@ import pandas as pd
 import plotly.express as px
 import requests
 
-education_df = pd.read_csv('../data/raw/Chicago_Public_Schools_-_Progress_Report_Cards_(2011-2012).csv')
+education_df = pd.read_csv('.././data/raw/Chicago_Public_Schools_-_Progress_Report_Cards_(2011-2012).csv')
 geojson = requests.get("https://data.cityofchicago.org/resource/igwz-8jzy.geojson").json()
 
 level_map = {'Level 1': 3, 'Level 2': 2, 'Level 3': 1}

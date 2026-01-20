@@ -6,7 +6,7 @@ import requests
 from shapely.geometry import Point
 
 # Load data
-crimes_df = pd.read_csv('../data/raw/Crimes_-_One_year_prior_to_present.csv')
+crimes_df = pd.read_csv('.././data/raw/Crimes_-_One_year_prior_to_present.csv')
 geojson = requests.get("https://data.cityofchicago.org/resource/igwz-8jzy.geojson").json()
 
 # 1. Convert to GeoDataFrames
@@ -22,7 +22,11 @@ gdf_crimes = gpd.sjoin(gdf_crimes, gdf_communities[['community', 'geometry']], h
 # 3. Count crimes per community
 crime_counts = gdf_crimes.groupby('community').size().reset_index(name='crime_count')
 
-# 4. Plot
+# Add percentage column
+total_crimes = crime_counts['crime_count'].sum()
+crime_counts['pct_of_total'] = (crime_counts['crime_count'] / total_crimes * 100).round(2)
+
+# 4. Plot with custom hover
 fig = px.choropleth_mapbox(
     crime_counts,
     geojson=geojson,
@@ -32,8 +36,17 @@ fig = px.choropleth_mapbox(
     mapbox_style='open-street-map',
     center={'lat': 41.8781, 'lon': -87.6298},
     zoom=9,
-    color_continuous_scale='Reds'
+    color_continuous_scale='Reds',
+    custom_data=['pct_of_total']
 )
+
+# Custom hover template
+fig.update_traces(
+    hovertemplate="<b>%{location}</b><br>" +
+                  "Crimes: %{z:,}<br>" +
+                  "% of Total: %{customdata[0]:.2f}%<extra></extra>"
+)
+
 fig.update_layout(width=1000, height=800, margin={"r":0,"t":0,"l":0,"b":0})
 fig.show()
 # %%
