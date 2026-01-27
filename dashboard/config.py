@@ -36,11 +36,15 @@ MAP_CENTER = {'lat': 41.8781, 'lon': -87.6298}
 MAP_ZOOM = 9
 MAP_STYLE = 'open-street-map'
 COLOR_SCALE = 'RdYlGn'
+from pathlib import Path
+
+# Get the project root (parent of dashboard folder)
+PROJECT_ROOT = Path(__file__).parent.parent
 
 # Data paths
 DATA_PATHS = {
-    'crimes': './notebooks/data/raw/Crimes_-_One_year_prior_to_present.csv',
-    'education': './notebooks/data/raw/Chicago_Public_Schools_-_Progress_Report_Cards_(2011-2012).csv',
-    'socioeconomic': './notebooks/data/raw/Census_Data_-_Selected_socioeconomic_indicators_in_Chicago,_2008_–_2012.csv',
+    'crimes': PROJECT_ROOT / 'notebooks/data/raw/Crimes_-_One_year_prior_to_present.csv',
+    'education': PROJECT_ROOT / 'notebooks/data/raw/Chicago_Public_Schools_-_Progress_Report_Cards_(2011-2012).csv',
+    'socioeconomic': PROJECT_ROOT / 'notebooks/data/raw/Census_Data_-_Selected_socioeconomic_indicators_in_Chicago,_2008_–_2012.csv',
     'geojson': 'https://data.cityofchicago.org/resource/igwz-8jzy.geojson'
 }
