@@ -2,7 +2,9 @@
 Run with: streamlit run run_dashboard.py
 """
 import sys
+import streamlit as st
 from pathlib import Path
+
 
 # Add project root to path
 sys.path.insert(0, str(Path(__file__).parent))
@@ -41,7 +43,7 @@ METRIC_INFO = {
 }
 
 
-import streamlit as st
+
 from dashboard import (
     load_all_data,
     calculate_all_metrics,
