@@ -1,6 +1,11 @@
 import streamlit as st
 import plotly.express as px
-from .config import MAP_CENTER, MAP_ZOOM, MAP_STYLE, COLOR_SCALE
+
+
+MAP_CENTER = {'lat': 41.8781, 'lon': -87.6298}
+MAP_ZOOM = 9
+MAP_STYLE = 'open-street-map'
+COLOR_SCALE = 'RdYlGn_r'
 
 def render_metric_info(info, metric_name):
     """Render the metric description and score explanation."""
@@ -18,7 +23,8 @@ def render_map(df, geojson):
         mapbox_style=MAP_STYLE,
         center=MAP_CENTER,
         zoom=MAP_ZOOM,
-        color_continuous_scale=COLOR_SCALE
+        color_continuous_scale=COLOR_SCALE,
+        opacity=0.6
     )
     fig.update_layout(
         height=600,

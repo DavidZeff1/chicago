@@ -12,7 +12,6 @@ def calculate_crime_metric(crimes_df, communities_gdf):
     gdf_crimes = gpd.sjoin(gdf_crimes, communities_gdf[['community', 'geometry']], how='left', predicate='within')
     
     crime_counts = gdf_crimes.groupby('community').size().reset_index(name='value')
-    crime_counts['value'] = crime_counts['value'].max() - crime_counts['value']
     return crime_counts
 
 def calculate_overall_school_quality(edu_df):

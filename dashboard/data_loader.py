@@ -2,7 +2,17 @@ import pandas as pd
 import geopandas as gpd
 import requests
 import streamlit as st
-from .config import DATA_PATHS
+from pathlib import Path
+
+# Get the project root (parent of dashboard folder)
+PROJECT_ROOT = Path(__file__).parent.parent
+
+DATA_PATHS = {
+    'crimes': PROJECT_ROOT / 'notebooks/data/raw/Crimes_-_One_year_prior_to_present.csv',
+    'education': PROJECT_ROOT / 'notebooks/data/raw/Chicago_Public_Schools_-_Progress_Report_Cards_(2011-2012).csv',
+    'socioeconomic': PROJECT_ROOT / 'notebooks/data/raw/Census_Data_-_Selected_socioeconomic_indicators_in_Chicago,_2008_–_2012.csv',
+    'geojson': 'https://data.cityofchicago.org/resource/igwz-8jzy.geojson'
+}
 
 @st.cache_data
 def load_crimes():
