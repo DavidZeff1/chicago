@@ -1,11 +1,7 @@
-"""
-Run with: streamlit run run_dashboard.py
-"""
+
 import sys
 import streamlit as st
 from pathlib import Path
-
-
 # Add project root to path
 sys.path.insert(0, str(Path(__file__).parent))
 
@@ -49,7 +45,9 @@ from dashboard import (
     calculate_all_metrics,
     render_metric_info,
     render_map,
-    render_top_bottom
+    render_top_bottom,
+    render_neighborhood_map,
+    render_show_data
 )
 
 # Page config
@@ -78,3 +76,5 @@ info = METRIC_INFO[metric_choice]
 render_metric_info(info, metric_choice)
 render_map(df, data['geojson'])
 render_top_bottom(df, info)
+render_neighborhood_map(data['communities'],data['crimes'])
+render_show_data(data['communities'],data['crimes'],data['education'])
