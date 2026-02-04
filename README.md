@@ -22,8 +22,7 @@ All data is sourced from the official [Chicago Data Portal](https://data.cityofc
 
 ```bash
 streamlit run dashboard.py
-
-
+```
 
 ### Live Demo
 
@@ -39,35 +38,33 @@ Access the deployed application: [Chicago Neighborhood Explorer](https://davidze
 ## 📁 Project Structure
 
 ```
-
 chicago/
 │
-├── dashboard.py # Entry point - run this file
+├── dashboard.py              # Entry point - run this file
 │
-└── dashboard/ # Main package folder
-├── **init**.py # Makes dashboard a Python package
-├── components.py # Streamlit UI components (maps, charts, graphs)
-├── data_loader.py # Data import and loading logic
-└── metrics.py # Data processing and metric calculations
-
+└── dashboard/                # Main package folder
+    ├── __init__.py          # Makes dashboard a Python package
+    ├── components.py        # Streamlit UI components (maps, charts, graphs)
+    ├── data_loader.py       # Data import and loading logic
+    └── metrics.py           # Data processing and metric calculations
 ```
 
 ### File Descriptions
 
-**`dashboard.py`**
+**`dashboard.py`**  
 Application entry point. Orchestrates the UI and connects all components.
 
-**`dashboard/components.py`**
+**`dashboard/components.py`**  
 Defines all Streamlit visual components including interactive maps, bar charts, comparison graphs, and data tables. Handles data manipulation with pandas and plotly for visualization.
 
-**`dashboard/data_loader.py`**
+**`dashboard/data_loader.py`**  
 Loads all necessary datasets:
 
 - Crime data from CSV (`notebooks/data/raw/`)
 - Education data from CSV (`notebooks/data/raw/`)
 - Community boundaries via GeoJSON API (converted to dataframe)
 
-**`dashboard/metrics.py`**
+**`dashboard/metrics.py`**  
 Performs data aggregation, calculates composite scores, and prepares dataframes for UI rendering.
 
 ## 📊 Data Sources
@@ -82,8 +79,6 @@ Performs data aggregation, calculates composite scores, and prepares dataframes 
 - **Pandas**: Data manipulation and analysis
 - **Plotly**: Interactive visualizations and maps
 - **GeoPandas**: Geographic data processing
-
-```
 
 ```
 
