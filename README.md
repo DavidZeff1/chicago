@@ -23,6 +23,7 @@ All data is sourced from the official [Chicago Data Portal](https://data.cityofc
 ```bash
 streamlit run dashboard.py
 ```
+````
 
 ### Live Demo
 
@@ -83,4 +84,3 @@ Performs data aggregation, calculates composite scores, and prepares dataframes 
 ```
 
 ```
-````
