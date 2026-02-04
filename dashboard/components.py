@@ -86,7 +86,6 @@ def render_neighborhood_map(communities, crimes):
         city_avg = len(crimes[crimes[' PRIMARY DESCRIPTION'] == crime]) / crimes['WARD'].nunique()
         st.metric("City Average per Ward", f"{city_avg:.0f}")
     
-    st.dataframe(filtered_crimes.head(10), use_container_width=True)
 
     # === SECTION 2: Crime Distribution in Selected Neighborhood ===
     st.header(f"🔍 All Crime Types in {neighborhood}")
@@ -111,9 +110,6 @@ def render_neighborhood_map(communities, crimes):
     st.header(f"🏙️ {crime} Across Chicago")
     
     crime_by_community = merged[merged[' PRIMARY DESCRIPTION'] == crime].groupby('community').size().sort_values(ascending=False)
-    
-    # Highlight selected neighborhood
-    colors = ['red' if x == neighborhood else 'lightblue' for x in crime_by_community.index]
     
     fig2 = px.bar(
         x=crime_by_community.head(15).values,
