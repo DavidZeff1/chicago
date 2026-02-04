@@ -148,46 +148,6 @@ def render_neighborhood_map(communities, crimes):
         )
         st.plotly_chart(fig4, use_container_width=True)
 
-    # === SECTION 5: Ranking Tables ===
-    st.header("📋 Rankings")
-    
-    col1, col2 = st.columns(2)
-    
-    with col1:
-        st.subheader("Highest Crime Neighborhoods")
-        top_neighborhoods = merged.groupby('community').size().sort_values(ascending=False).head(10)
-        
-        # Highlight selected neighborhood
-        top_df = top_neighborhoods.reset_index()
-        top_df.columns = ['Neighborhood', 'Total Crimes']
-        top_df['Selected'] = top_df['Neighborhood'] == neighborhood
-        
-        st.dataframe(
-            top_df.style.apply(
-                lambda x: ['background-color: #ffcccc' if x['Selected'] else '' for i in x],
-                axis=1
-            ),
-            use_container_width=True,
-            hide_index=True
-        )
-    
-    with col2:
-        st.subheader("Most Common Crime Types Citywide")
-        top_crimes = merged.groupby(' PRIMARY DESCRIPTION').size().sort_values(ascending=False).head(10)
-        
-        # Highlight selected crime
-        crimes_df = top_crimes.reset_index()
-        crimes_df.columns = ['Crime Type', 'Total Incidents']
-        crimes_df['Selected'] = crimes_df['Crime Type'] == crime
-        
-        st.dataframe(
-            crimes_df.style.apply(
-                lambda x: ['background-color: #ffcccc' if x['Selected'] else '' for i in x],
-                axis=1
-            ),
-            use_container_width=True,
-            hide_index=True
-        )
 
     # === SECTION 6: Time-based analysis (if you have date column) ===
     if 'DATE  OF OCCURRENCE' in crimes.columns:
