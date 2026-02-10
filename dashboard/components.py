@@ -16,25 +16,36 @@ def render_metric_info(info, metric_name):
 
 def render_map(df, geojson):
     """Render the choropleth map."""
+    # 1. Create a display column scaled per 1,000 population
+    # Assuming 'value' is currently 0.27 (27%), multiplying by 10 gives per 1000 if the base was 100, 
+    # but usually, you just want: (raw_count / population) * 1000.
+    # If 'value' is already a decimal rate (0.00027), multiply by 1000:
+    df['display_value'] = df['value'] * 1000 
+
     fig = px.choropleth_mapbox(
         df,
         geojson=geojson,
         locations='community',
         featureidkey='properties.community',
-        color='value',
+        color='display_value', # Use the new scaled column for the color scale
         mapbox_style=MAP_STYLE,
         center=MAP_CENTER,
         zoom=MAP_ZOOM,
         color_continuous_scale=COLOR_SCALE,
         opacity=0.6
     )
+    
     fig.update_layout(
         height=600,
-        margin={"r": 0, "t": 0, "l": 0, "b": 0}
+        margin={"r": 0, "t": 0, "l": 0, "b": 0},
+        coloraxis_colorbar=dict(title="Per 1k People") # Label the color bar
     )
+    
+    # 2. Update hover template to show the formatted number
     fig.update_traces(
-        hovertemplate="<b>%{location}</b><br>Score: %{z:.2f}<extra></extra>"
+        hovertemplate="<b>%{location}</b><br>Rate: %{z:.1f} per 1k<extra></extra>"
     )
+    
     st.plotly_chart(fig, use_container_width=True)
 
 def render_top_bottom(df, info):
