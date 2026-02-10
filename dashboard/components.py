@@ -43,7 +43,7 @@ def render_map(df, geojson):
     
     # 2. Update hover template to show the formatted number
     fig.update_traces(
-        hovertemplate="<b>%{location}</b><br>Rate: %{z:.1f} per 1k<extra></extra>"
+        hovertemplate="<b>%{location}</b><br>Rate: %{z:.1f}crimes per 1k residents<extra></extra>"
     )
     
     st.plotly_chart(fig, use_container_width=True)
