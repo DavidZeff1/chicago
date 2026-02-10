@@ -54,6 +54,11 @@ def render_correlation_heatmap(df):
     """Render a correlation heatmap of numeric columns."""
     st.subheader("Correlation Analysis")
     st.write("How do different factors relate to each other?")
+    st.markdown("""
+    This map shows how strongly different factors are connected. 
+    * **Blue (1.0)** means they go up together (Positive Correlation). 
+    * **Red (-1.0)** means when one goes up, the other goes down (Negative Correlation).
+    """)
     
     # Select numeric columns only
     numeric_df = df.select_dtypes(include=['float64', 'int64']).drop(columns=['community', 'crime_count', 'Total Population', 'AREA_NUMBE'], errors='ignore')
@@ -81,6 +86,11 @@ def render_scatter_plots(df):
     with col1:
         # Crime vs School Quality
         st.markdown("#### Crime vs. Education")
+        st.markdown("""
+        **What this shows:** This chart compares the crime rate in a neighborhood with its overall school quality score.
+        
+        **What to look for:** A *downward* trend suggests that neighborhoods with better schools tend to have less crime.
+        """)
         fig1 = px.scatter(
             df,
             x='School Quality Score',
@@ -96,6 +106,11 @@ def render_scatter_plots(df):
          # Crime vs Hardship
         if 'HARDSHIP INDEX' in df.columns:
             st.markdown("#### Crime vs. Hardship")
+            st.markdown("""
+            **What this shows:** This compares crime rates with the "Hardship Index," a score from 1-100 measuring economic difficulty (income, housing, etc.).
+            
+            **What to look for:** An *upward* trend indicates that areas with more economic hardship often face higher crime rates.
+            """)
             fig2 = px.scatter(
                 df,
                 x='HARDSHIP INDEX',
