@@ -66,16 +66,24 @@ metrics = calculate_all_metrics(
     data['population']
 )
 
-# UI: Metric selector
-metric_choice = st.selectbox("Select metric:", list(metrics.keys()))
+# UI: Navigation
+page = st.sidebar.radio("Navigate", ["Neighborhood Explorer", "EDA & Insights"])
 
-# Get selected metric data and info
-df = metrics[metric_choice].copy()
-info = METRIC_INFO[metric_choice]
+if page == "Neighborhood Explorer":
+    # UI: Metric selector
+    metric_choice = st.selectbox("Select metric:", list(metrics.keys()))
 
-# Render components
-render_metric_info(info, metric_choice)
-render_map(df, data['geojson'])
-render_top_bottom(df, info)
-render_neighborhood_map(data['communities'],data['crimes'])
-render_show_data(data['communities'],data['crimes'],data['education'])
+    # Get selected metric data and info
+    df = metrics[metric_choice].copy()
+    info = METRIC_INFO[metric_choice]
+
+    # Render components
+    render_metric_info(info, metric_choice)
+    render_map(df, data['geojson'])
+    render_top_bottom(df, info)
+    render_neighborhood_map(data['communities'],data['crimes'])
+    render_show_data(data['communities'],data['crimes'],data['education'])
+
+elif page == "EDA & Insights":
+    from dashboard.eda import render_eda_section
+    render_eda_section(data, metrics)
