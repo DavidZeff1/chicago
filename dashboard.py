@@ -8,7 +8,7 @@ sys.path.insert(0, str(Path(__file__).parent))
 METRIC_INFO = {
     'Safety (Low Crime)': {
         'description': 'Measures neighborhood safety based on reported crime incidents over the past year. Higher scores indicate higher crimes.',
-        'score_explanation': 'Score is the amount og registered crimes listed in each particular neighborhood.',
+        'score_explanation': 'Score is the amount og registered crimes listed in each particular neighborhood per capita.',
         'bottom_meaning': 'These are Chicago\'s safest neighborhoods. Residents here experience significantly fewer reported crimes including theft, assault, and property crime. Ideal for families and those prioritizing security.',
         'top_meaning': 'These neighborhoods have the highest crime rates in Chicago. Consider additional safety precautions, research specific blocks, and visit at different times of day before committing.'
     },
