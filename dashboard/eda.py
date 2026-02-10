@@ -54,11 +54,7 @@ def render_correlation_heatmap(df):
     """Render a correlation heatmap of numeric columns."""
     st.subheader("Correlation Analysis")
     st.write("How do different factors relate to each other?")
-    st.markdown("""
-    This map shows how strongly different factors are connected. 
-    * **Blue (1.0)** means they go up together (Positive Correlation). 
-    * **Red (-1.0)** means when one goes up, the other goes down (Negative Correlation).
-    """)
+    
     
     # Select numeric columns only
     numeric_df = df.select_dtypes(include=['float64', 'int64']).drop(columns=['community', 'crime_count', 'Total Population', 'AREA_NUMBE'], errors='ignore')

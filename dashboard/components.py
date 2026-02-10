@@ -33,7 +33,7 @@ def render_map(df, geojson):
         margin={"r": 0, "t": 0, "l": 0, "b": 0}
     )
     fig.update_traces(
-        hovertemplate="<b>%{location}</b><br>Score: %{z:.1f}<extra></extra>"
+        hovertemplate="<b>%{location}</b><br>Score: %{z:.2f}<extra></extra>"
     )
     st.plotly_chart(fig, use_container_width=True)
 
