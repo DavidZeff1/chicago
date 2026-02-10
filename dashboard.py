@@ -62,7 +62,8 @@ data = load_all_data()
 metrics = calculate_all_metrics(
     data['crimes'],
     data['education'],
-    data['communities']
+    data['communities'],
+    data['population']
 )
 
 # UI: Metric selector

@@ -4,15 +4,40 @@ import streamlit as st
 from shapely.geometry import Point
 from .utils import safe_numeric
 
-def calculate_crime_metric(crimes_df, communities_gdf):
-    """Calculate safety score (inverted crime count)."""
+def calculate_crime_metric(crimes_df, communities_gdf, population_df):
+    """Calculate safety score (crimes per capita)."""
+    # Process population data first
+    pop_df = population_df.copy()
+    pop_df.columns = pop_df.columns.str.strip()
+    pop_df = pop_df.rename(columns={'Community Area': 'community'})
+    pop_df['community'] = pop_df['community'].str.strip().str.upper()
+    
+    # Process crimes
     crimes_clean = crimes_df.dropna(subset=['LATITUDE', 'LONGITUDE']).copy()
     geometry = [Point(lon, lat) for lon, lat in zip(crimes_clean['LONGITUDE'], crimes_clean['LATITUDE'])]
     gdf_crimes = gpd.GeoDataFrame(crimes_clean, geometry=geometry, crs="EPSG:4326")
+    
+    # Spatial join
     gdf_crimes = gpd.sjoin(gdf_crimes, communities_gdf[['community', 'geometry']], how='left', predicate='within')
     
-    crime_counts = gdf_crimes.groupby('community').size().reset_index(name='value')
-    return crime_counts
+    # Calculate counts
+    crime_counts = gdf_crimes.groupby('community').size().reset_index(name='crime_count')
+    
+    # Merge with population
+    # Ensure communities_gdf community names match pop_df format if needed, 
+    # but initially assuming they match or are close enough after standardization
+    # normalizing crime_counts community names too
+    crime_counts['community'] = crime_counts['community'].str.strip().str.upper()
+    
+    merged = pd.merge(crime_counts, pop_df[['community', 'Total Population']], on='community', how='left')
+    
+    # Clean population column specific to this dataset format (commas)
+    if merged['Total Population'].dtype == 'object':
+        merged['Total Population'] = merged['Total Population'].str.replace(',', '').astype(float)
+        
+    merged['value'] = merged['crime_count'] / merged['Total Population']
+    
+    return merged[['community', 'value']]
 
 def calculate_overall_school_quality(edu_df):
     """Calculate overall school quality score."""
@@ -84,10 +109,10 @@ def calculate_college_readiness(edu_df):
     return result
 
 @st.cache_data
-def calculate_all_metrics(_crimes_df, _education_df, _communities_gdf):
+def calculate_all_metrics(_crimes_df, _education_df, _communities_gdf, _population_df):
     """Calculate all metrics and return as dict."""
     return {
-        'Safety (Low Crime)': calculate_crime_metric(_crimes_df, _communities_gdf),
+        'Safety (Low Crime)': calculate_crime_metric(_crimes_df, _communities_gdf, _population_df),
         'School Quality (Overall)': calculate_overall_school_quality(_education_df),
         'Elementary Schools': calculate_elementary_quality(_education_df),
         'High Schools': calculate_highschool_quality(_education_df),

@@ -11,7 +11,8 @@ DATA_PATHS = {
     'crimes': PROJECT_ROOT / 'notebooks/data/raw/Crimes_-_One_year_prior_to_present.csv',
     'education': PROJECT_ROOT / 'notebooks/data/raw/Chicago_Public_Schools_-_Progress_Report_Cards_(2011-2012).csv',
     'socioeconomic': PROJECT_ROOT / 'notebooks/data/raw/Census_Data_-_Selected_socioeconomic_indicators_in_Chicago,_2008_–_2012.csv',
-    'geojson': 'https://data.cityofchicago.org/resource/igwz-8jzy.geojson'
+    'geojson': 'https://data.cityofchicago.org/resource/igwz-8jzy.geojson',
+    'population': PROJECT_ROOT / 'notebooks/data/raw/ACS_5_Year_Data_by_Community_Area_-_Most_Recent_Year_20260208.csv'
 }
 
 @st.cache_data
@@ -34,6 +35,10 @@ def load_geojson():
 def load_communities(_geojson):
     return gpd.GeoDataFrame.from_features(_geojson['features']).set_crs("EPSG:4326")
 
+@st.cache_data
+def load_population():
+    return pd.read_csv(DATA_PATHS['population'])
+
 def load_all_data():
     """Load all datasets and return as dict."""
     geojson = load_geojson()
@@ -42,5 +47,6 @@ def load_all_data():
         'education': load_education(),
         'socioeconomic': load_socioeconomic(),
         'geojson': geojson,
-        'communities': load_communities(geojson)
+        'communities': load_communities(geojson),
+        'population':load_population()
     }
